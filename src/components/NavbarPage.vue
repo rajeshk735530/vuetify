@@ -1,7 +1,7 @@
 <template>
   <v-nav>
     <!-- App Bar -->
-    <v-app-bar app text>
+    <v-app-bar app text flat>
       <v-app-bar-nav-icon>
         <v-icon @click="toggleDrawer">mdi-menu</v-icon>
       </v-app-bar-nav-icon>
@@ -20,7 +20,7 @@
     </v-app-bar>
 
     <!-- Navigation Drawer -->
-    <v-navigation-drawer app v-model="drawer" dark class="primary">
+    <v-navigation-drawer app v-model="drawer" class="white">
       <v-list>
         <v-list-item-group v-for="(item, index) in link" :key="index">
           <v-list-item :to="item.route" router>
