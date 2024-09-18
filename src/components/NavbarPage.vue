@@ -46,6 +46,9 @@
             The project avatar
           </p>
         </v-flex>
+        <v-flex>
+          <PopupForm />
+        </v-flex>
       </v-layout>
 
       <v-list>
@@ -66,7 +69,10 @@
 </template>
 
 <script>
+import PopupForm from './PopupForm.vue';
+
 export default {
+  components: { PopupForm },
   data() {
     return {
       drawer: false,
