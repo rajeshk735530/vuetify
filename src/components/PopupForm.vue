@@ -37,6 +37,8 @@
 
 <script>
 import { format } from 'date-fns';
+import { collection, addDoc } from 'firebase/firestore';
+import db from '@/fb.js';
 
 export default {
     data() {
@@ -45,20 +47,37 @@ export default {
             content: '',
             due: null,
             InputRules: [
-                v => v.length >= 3 || 'Minimum lingth is 3 characters'
+                v => (v && v.length >= 3) || 'Minimum length is 3 characters'
             ],
         };
     },
     methods: {
-        submit() {
+        async submit() {
             if (this.$refs.form.validate()) {
-            console.log(this.title, this.content, this.due);
+                const project = {
+                    title: this.title,
+                    content: this.content,
+                    due: format(new Date(this.due), 'dd MMM yyyy'),
+                    person: 'The project',
+                    status: 'ongoing',
+                };
+
+                try {
+                    const docRef = await addDoc(collection(db, 'projects'), project);
+                    console.log('Document written with ID: ', docRef.id);
+                    // Optionally reset the form fields here
+                    this.title = '';
+                    this.content = '';
+                    this.due = null;
+                } catch (error) {
+                    console.error('Error adding document: ', error);
+                }
             }
         },
     },
     computed: {
         formattedDate() {
-            return this.due ? format(new Date(this.due), 'dd MMM yyyy') : ''; // Fixed formatting
+            return this.due ? format(new Date(this.due), 'dd MMM yyyy') : '';
         },
     },
 };
